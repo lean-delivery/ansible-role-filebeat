@@ -1,0 +1,7 @@
+---
+# handlers file for ansible-role-filebeat
+- name: Restart filebeat
+  service:
+    name: filebeat
+    state: restarted
+  become: True
