@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: ansible-role-filebeat
+  vars:
+    elasticsearch:
+      host: ecsc00a0382e
+      port: 9200
+
+
+
+
