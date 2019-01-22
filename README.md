@@ -1,4 +1,4 @@
-ansible-role-filebeat role
+Filebeat Role
 =========
 [![License](https://img.shields.io/badge/license-Apache-green.svg?style=flat)](https://raw.githubusercontent.com/lean-delivery/ansible-role-ansible-role-filebeat/master/LICENSE)
 [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-ansible-role-filebeat.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-ansible-role-filebeat)
@@ -6,40 +6,129 @@ ansible-role-filebeat role
 ![Ansible](https://img.shields.io/ansible/role/d/role_id.svg)
 ![Ansible](https://img.shields.io/badge/dynamic/json.svg?label=min_ansible_version&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2Frole_id%2F&query=$.min_ansible_version)
 
-A brief description of the role goes here.
+## Summary
+
+This role:
+  - installs filebeat on Ubuntu, CentOS
+  - copies prepared configuration file (log path, connect to elasticsearch etc.)
+
+
+Role tasks
+------------
+
+- Prepare server (add elastic repo)
+- Install filebeat
+- Copy configuration file
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+- Minimal Version of the ansible for installation: 2.5
+ - **Supported OS**:
+   - CentOS
+     - 6, 7
+   - Ubuntu
+     - 16.04, 18.04
+   - Debian
+     - 8, 9
 
-Role Variables
+## Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+You can override any variable below by setting "variable: value" in playbook.
+
+- `elastic_branch`
+Is used to select main Elasticsearch branch to be installed (5.x or 6.x current stable versions). Default value is `6`.
+- `elastic_gpg_key`
+GPG-key from elasticsearch repository. Default value is `https://artifacts.elastic.co/GPG-KEY-elasticsearch`
+
+- `nix_filebeat_input_logpath`
+Path to log files for *NIX OS family. Default value is `"/var/log/*.log"`
+- `win_filebeat_input_logpath`
+Path to log files for WIN OS family. Default value is `'c:\windows\*.log'`
+
+- `filebeat_ignore_older`
+Value (any time strings like 2h, 5m can be used) above which files will be ignored. Default value is `0` (disabled)
+- `filebeat_scan_frequency`
+Defines how often filebeat checks file updates. Default value is `15s`
+- `filebeat_harvester_buffer_size`
+Defines the buffer size. Default value is `65535`
+
+- `filebeat_node_name`
+Name of the filebeat node. Default value is `{{ inventory_hostname }}`. If this options is not defined, the hostname is used.
+
+- `filebeat_output`
+Is used to configure what output to use when sending data (`elasticsearch` or `logstash`). Default value is `elasticsearch`
+
+- `elasticsearch.host`
+Array of hosts to connect to. Default value is `localhost`
+- `elasticsearch.port`
+Value for setting custom port. Default value is `9200`
+
+- `logstash.host`
+Array of hosts to connect to. Default value is `localhost`
+- `logstash.port`
+Value for setting custom port. Default value is `5044`
+
+- `filebeat_bulk_max_size`
+Maximum number of events to bulk in a single Logstash request. Default value is `500`
+- `filebeat_worker`
+Number of workers per Elasticsearch host. Default value is `1`
+
+- `filebeat_ssl_enabled`
+Enable SSL support. Default value is `false`
+- `filebeat_cert_file`
+Path to certificate for SSL client authentication Default value is `"/etc/pki/tls/certs/server.crt"`
+- `filebeat_pkey_file`
+Path to client certificate key. Default value is `"/etc/pki/CA/ca-root.pem"`
+
+- `filebeat_logging_to_syslog`
+Send all logging output to syslog. Default value is `false`
+- `filebeat_logging_to_files`
+Send all logging output to rotating files. Default value is `true`
+- `filebeat_rotateeverybytes`
+Defines log file size limit. Defalt value is `104857600` = `100MB`
+- `filebeat_keepfiles`
+Number of log files to keep. Default value is `30`
+- `nix_filebeat_logpath`
+Path were the logs are written for *NIX family. Default value is `"/var/log/filebeat"`
+- `filebeat_logname`
+Name of the logging files. Default value is `"filebeat.log"`
+
+- `win_filebeat_logpath`
+Path were the logs are written for *NIX family. Default value is `'c:\programdata\filebeat\logs'`
+
+
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+None.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
+### Installing Filebeat 6.x version:
 
-    - hosts: servers
-      roles:
-         - { role: ansible-role-filebeat, x: 42 }
+```yaml
+- name: Install filebeat
+  hosts: all
+  roles:
+    - role: ansible-role-filebeat
+```
+### Installing Filebeat 6.x version with custom path to log files and elasticsearch output:
+
+```yaml
+- name: Install filebeat
+  hosts: all
+  roles:
+    - role: ansible-role-filebeat
+  vars:
+    nix_filebeat_input_logpath: "/var/log/messages"
+    elasticsearch:
+      host: elasticsearch.example.com
+      port: 9200
+```
 
 License
 -------
