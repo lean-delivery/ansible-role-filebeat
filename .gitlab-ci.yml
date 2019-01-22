@@ -30,14 +30,14 @@ Docker ansible-role-filebeat:
   tags:
     - docker
 
-AWS ansible-role-filebeat:
-  variables:
-    EPC_REGION: AWS-EUCENTRAL
-  stage: deployment test
-  script:
-    - molecule test -s cloud-aws-delegated
-  tags:
-    - delegated
+#AWS ansible-role-filebeat:
+#  variables:
+#    EPC_REGION: AWS-EUCENTRAL
+#  stage: deployment test
+#  script:
+#    - molecule test -s cloud-aws-delegated
+#  tags:
+#    - delegated
 
 EPC ansible-role-filebeat:
   variables:
