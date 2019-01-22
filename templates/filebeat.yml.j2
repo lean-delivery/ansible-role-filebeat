@@ -25,7 +25,7 @@ filebeat.inputs:
 
   # Paths that should be crawled and fetched. Glob based paths.
   paths:
-{% if ansible_os_family == "RedHat" %}
+{% if ansible_os_family == "RedHat" or "Debian" %}
     - {{ nix_filebeat_input_logpath }}
 #{% elif ansible_os_family == "Windows" %}
 #   - {{ nix_filebeat_input_logpath }}
