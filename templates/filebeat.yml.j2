@@ -36,7 +36,7 @@ filebeat.inputs:
   ignore_older: {{ filebeat_ignore_older }}
   scan_frequency: {{ filebeat_scan_frequency }}
   harvester_buffer_size: {{ filebeat_harvester_buffer_size }}
-  #backoff: "{{ filebeat_backoff }}"
+  {# backoff: {{ filebeat_backoff }} #}
 
   # Exclude lines. A list of regular expressions to match. It drops the lines that are
   # matching any regular expression from the list.
