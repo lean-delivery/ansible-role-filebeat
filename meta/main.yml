@@ -1,10 +1,10 @@
 ---
 galaxy_info:
-  role_name: ansible_role_filebeat
+  role_name: filebeat
   author: Lean Delivery Team <team@lean-delivery.com>
   description: Yet Another Ansible Role From Lean Delivery
   company: EPAM Systems
-  issue_tracker_url: https://github.com/lean-delivery/ansible-role-ansible-role-filebeat/issues
+  issue_tracker_url: https://github.com/lean-delivery/ansible-role-filebeat/issues
   license: Apache
   min_ansible_version: 2.5
   platforms: [{name: [EL], versions: [7]}]
