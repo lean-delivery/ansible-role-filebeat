@@ -5,19 +5,23 @@
   package:
     name: apt-transport-https
     state: present
+  register: debian_dependency
+  until: debian_dependency is succeeded
 
 - name: Add elasticsearch apt key
   become: True
   apt_key:
     url: '{{ elastic_gpg_key }}'
     state: present
+  register: add_gpg_key
+  until: add_gpg_key is succeeded
 
 - name: Add Beats repository for {{ ansible_os_family }}
   become: True
   apt_repository:
     repo: 'deb https://artifacts.elastic.co/packages/{{ elastic_branch }}.x/apt stable main'
     state: present
-    update_cache: true
+    update_cache: True
 
 - name: Install filebeat
   become: True
