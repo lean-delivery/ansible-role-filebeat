@@ -1,0 +1,51 @@
+---
+- name: Setting InitD init system variables
+  set_fact:
+    filebeat: "{{ filebeat | combine(initd) }}"
+  when: ansible_service_mgr != 'systemd'
+
+- name: Add Beats repository
+  become: True
+  yum_repository:
+    name: "filebeat-{{ filebeat_version }}"
+    description: "Beats repository"
+    baseurl: 'https://artifacts.elastic.co/packages/{{ filebeat_version }}/yum'
+    gpgcheck: True
+    gpgkey: '{{ elastic_gpg_key }}'
+    enabled: True
+
+- name: Install filebeat
+  become: True
+  package:
+    name: filebeat
+    state: present
+  register: installed_package
+  until: installed_package is succeeded
+
+- name: Setup path folders
+  become: True
+  file:
+    path: '{{ path_folder.value }}'
+    state: directory
+  with_dict: '{{ path }}'
+  loop_control:
+    loop_var: path_folder
+
+- name: Copy Configuration File
+  become: True
+  template:
+    src: filebeat.yml.j2
+    dest: '{{ path.config }}/filebeat.yml'
+    owner: root
+    group: root
+    mode: 0644
+
+- name: templating init script
+  become: True
+  template:
+    src: '{{ filebeat.service.template }}.j2'
+    dest: '{{ filebeat.service.path }}'
+    owner: root
+    group: root
+    mode: u+rwx
+  notify: '{{ filebeat.service.handler }}'

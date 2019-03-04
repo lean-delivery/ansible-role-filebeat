@@ -1,0 +1,53 @@
+#!/bin/sh
+# chkconfig:         2345 75 15
+# description:       Filebeat
+### BEGIN INIT INFO
+# Provides:          filebeat
+# Required-Start:    $filebeat
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: filebeat service
+### END INIT INFO
+
+SCRIPT_NAME=`basename $0`
+HOME_PATH='{{ path.home }}'
+CONFIG_PATH='{{ path.config }}'
+PATH_DATA='{{ path.data }}'
+BIN="$HOME_PATH/bin/filebeat"
+PID="/var/run/$SCRIPT_NAME.pid"
+
+function filebeat_start {
+    ExecStart={{ path.home }}/bin/filebeat -c {{ path.config }}/filebeat.yml -path.home {{ path.home }} -path.config {{ path.config }} -path.data {{ path.data }} -path.logs {{ path.logs }} & echo $! > $PID
+}
+
+function filebeat_stop {
+	pkill -P $(<$PID) && rm -f $PID
+}
+
+case "$1" in
+start)
+echo -n "Starting $SCRIPT_NAME: "
+filebeat_start
+;;
+status)
+test -e $PID && echo "$PID is up" || echo "$PID is down"
+;;
+stop)
+echo -n "Shutting down $SCRIPT_NAME: "
+filebeat_stop
+;;
+restart)
+filebeat_stop
+echo -n "Wait until $SCRIPT_NAME is shutting down..."
+while [ $(ps aux $BIN -c) -ge 1 ]
+do
+echo '.'
+done
+filebeat_start
+;;
+*)
+echo "Usage: $SCRIPT_NAME {start|status|stop|restart}"
+exit 1
+;;
+esac

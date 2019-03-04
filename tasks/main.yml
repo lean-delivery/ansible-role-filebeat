@@ -1,0 +1,29 @@
+---
+# Install and run filebeat
+- name: Set elastic_branch from version
+  set_fact:
+    elastic_branch: "{{ filebeat_version.split('.')[0] }}"
+    filebeat_version_suffix: "{{ filebeat_version.split('.')[1] }}"
+
+- name: Set filebeat_specific_version if specified
+  set_fact:
+    filebeat_specific_version: "{{ filebeat_version }}"
+  when: filebeat_version_suffix != 'x'
+
+- name: Setting elastic values
+  set_fact:
+    elasticsearch: "{{ elasticsearch | combine(elasticsearch) }}"
+  when: elasticsearch is defined
+
+- name: Setting logstash output values if defined
+  set_fact:
+    elasticsearch: "{{ elasticsearch | combine(logstash) }}"
+  when: logstash is defined and filebeat_output != "elasticsearch"
+
+- name: "Installing filebeat on current OS"
+  include_tasks: '{{ platform_tasks }}'
+  with_first_found:
+    - 'system/{{ ansible_os_family }}.yml'
+    - system/not-supported.yml
+  loop_control:
+    loop_var: platform_tasks
