@@ -1,6 +1,7 @@
 ---
 dependencies: []
 
+
 galaxy_info:
   role_name: filebeat
   author: "Lean Delivery Team <team@lean-delivery.com>"
@@ -9,6 +10,8 @@ galaxy_info:
   issue_tracker_url: "https://github.com/lean-delivery/ansible-role-filebeat/issues"
   license: "Apache"
   min_ansible_version: 2.5
+
+
 
   platforms:
     - name: EL
@@ -30,3 +33,4 @@ galaxy_info:
     - logging
     - monitoring
     - system
+

@@ -8,6 +8,7 @@
     enabled: True
     daemon-reload: True
 
+
 - name: start_filebeat_initd
   become: True
   service:

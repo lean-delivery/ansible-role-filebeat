@@ -7,6 +7,7 @@
   vars:
     ssh_port: 22
 
+
     security_group_name: molecule
     security_group_description: Security group for testing Molecule
     security_group_rules:
@@ -24,6 +25,7 @@
         to_port: 0
         cidr_ip: '0.0.0.0/0'
 
+
     keypair_name: molecule_key
     keypair_path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/ssh_key"
   tasks:
@@ -34,6 +36,7 @@
         rules: "{{ security_group_rules }}"
         rules_egress: "{{ security_group_rules_egress }}"
 
+
     - name: Persist the keypair
       copy:
         dest: "{{ keypair_path }}"
@@ -41,10 +44,12 @@
         mode: 0600
       no_log: True
 
+
     - name: Test for presence of local keypair
       stat:
         path: "{{ keypair_path }}"
       register: keypair_local
+
 
     - name: Create molecule instance(s)
       ec2:
@@ -72,6 +77,7 @@
       async: 7200
       poll: 0
 
+
     - name: Wait for instance(s) creation to complete
       async_status:
         jid: "{{ item.ansible_job_id }}"
@@ -81,7 +87,9 @@
       delay: 5
       retries: 300
 
+
     # Mandatory configuration for Molecule to function.
+
 
     - name: Populate instance config dict
       set_fact:
@@ -96,16 +104,19 @@
       register: instance_config_dict
       when: instance_create.changed | bool
 
+
     - name: Convert instance config dict to a list
       set_fact:
         instance_conf: "{{ instance_config_dict.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
       when: instance_create.changed | bool
+
 
     - name: Dump instance config
       copy:
         content: "{{ instance_conf | to_json | from_json | molecule_to_yaml | molecule_header }}"
         dest: "{{ molecule_instance_config }}"
       when: instance_create.changed | bool
+
 
     - name: Wait for SSH
       wait_for:

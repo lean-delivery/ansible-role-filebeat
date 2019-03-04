@@ -22,6 +22,7 @@
       async: 7200
       poll: 0
 
+
     - name: Wait for instance(s) deletion to complete
       async_status:
         jid: "{{ item.ansible_job_id }}"
@@ -31,10 +32,12 @@
       delay: 20
       with_items: "{{ server.results }}"
 
+
     # Mandatory configuration for Molecule to function.
     - name: Populate instance config
       set_fact:
         instance_conf: {}
+
 
     - name: Dump instance config
       copy:

@@ -1,5 +1,6 @@
 ---
 
+
 - name: Install dependency for Debian
   become: True
   package:
@@ -7,6 +8,7 @@
     state: present
   register: debian_dependency
   until: debian_dependency is succeeded
+
 
 - name: Add elasticsearch apt key
   become: True
@@ -16,12 +18,14 @@
   register: add_gpg_key
   until: add_gpg_key is succeeded
 
+
 - name: Add Beats repository
   become: True
   apt_repository:
     repo: 'deb https://artifacts.elastic.co/packages/{{ filebeat_version }}/apt stable main'
     state: present
     update_cache: True
+
 
 - name: Install filebeat
   become: True
@@ -30,6 +34,7 @@
     state: present
   register: installed_package
   until: installed_package is succeeded
+
 
 - name: Setup path folders
   become: True
@@ -40,6 +45,7 @@
   loop_control:
     loop_var: path_folder
 
+
 - name: Copy Configuration File
   become: True
   template:
@@ -49,11 +55,13 @@
     group: root
     mode: 0644
 
+
 - name: Create folder path for service script
   become: True
   file:
     path: /usr/lib/systemd/system
     state: directory
+
 
 - name: templating init script
   become: True

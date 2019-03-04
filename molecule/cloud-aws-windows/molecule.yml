@@ -11,6 +11,7 @@ lint:
     config-file: .yamllint
 platforms:
 
+
   - name: test-aws-Windows2016-filebeat
     aws_image_id: ami-07a29e78aeb420471
     aws_region: us-east-1

@@ -27,6 +27,7 @@
       async: 7200
       poll: 0
 
+
     - name: Wait for instance(s) creation to complete
       async_status:
         jid: "{{ item.ansible_job_id }}"
@@ -36,10 +37,13 @@
       delay: 20
       with_items: "{{ server.results }}"
 
+
     # Mandatory configuration for Molecule to function.
+
 
     # Developer must map instance config.
     # Mandatory configuration for Molecule to function.
+
 
     - name: Populate instance config dict
       set_fact:
@@ -68,10 +72,12 @@
       register: instance_config_dict
       when: server.changed | bool
 
+
     - name: Convert instance config dict to a list
       set_fact:
         instance_conf: "{{ instance_config_dict.results | map(attribute='ansible_facts.instance_conf_dict') | list }}"
       when: server.changed | bool
+
 
     - name: Dump instance config
       copy:
@@ -80,6 +86,7 @@
         content: "{{ instance_conf | to_json | from_json | molecule_to_yaml | molecule_header }}"
         dest: "{{ molecule_instance_config }}"
       when: server.changed | bool
+
 
     - name: Wait for SSH
       wait_for:
