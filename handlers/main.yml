@@ -1,0 +1,17 @@
+---
+# handlers file for ansible-role-filebeat
+- name: start_filebeat_systemd
+  become: True
+  systemd:
+    name: filebeat
+    state: started
+    enabled: True
+    daemon-reload: True
+
+- name: start_filebeat_initd
+  become: True
+  service:
+    name: filebeat
+    pattern: "{{ path.home }}/bin/filebeat"
+    state: started
+    enabled: True
