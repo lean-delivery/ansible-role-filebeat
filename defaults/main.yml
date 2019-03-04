@@ -1,12 +1,10 @@
 ---
 
-
 filebeat_version: 6.x
 filebeat_last_version: 6.6.0
 elastic_gpg_key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
 filebeat_node_name: "{{ inventory_hostname }}"
 filebeat_ssl_enabled: false
-
 
 path:
   home: /usr/share/filebeat
@@ -14,12 +12,10 @@ path:
   data: /var/lib/filebeat
   logs: /var/log/filebeat
 
-
 ssl:
   key: "/etc/pki/tls/private/server.key"
   certificate: "/etc/pki/tls/certs/server.crt"
   certificate_authorities: "/etc/pki/CA/ca-root.pem"
-
 
 win:
   path:
@@ -28,33 +24,26 @@ win:
     data: 'c:\programdata\filebeat'
     logs: 'c:\programdata\filebeat\logs'
 
-
   ssl:
     key: 'c:\tls\private\server.key'
     certificate: 'c:\tls\certs\server.pem'
     certificate_authorities: 'c:\CA\ca-root.pem'
 
-
 win_download_path: '{{ ansible_env.TEMP }}/filebeat'
-
 
 input_logpath: '/var/log/*.log'
 win_input_logpath: 'c:\windows\*.log'
 
-
 #output customization:
 filebeat_output: "elasticsearch"
-
 
 elasticsearch:
   host: localhost
   port: 9200
 
-
 logstash:
   host: localhost
   port: 5044
-
 
 #Advanced config parameters:
 filebeat:
@@ -63,13 +52,11 @@ filebeat:
     template: filebeat-template.systemd
     handler: start_filebeat_systemd
 
-
 initd:
   service:
     path: /etc/init.d/{{ filebeat_service_name }}
     template: filebeat-template.initd
     handler: start_filebeat_initd
-
 
 filebeat_service_name: filebeat
 filebeat_bulk_max_size: 500

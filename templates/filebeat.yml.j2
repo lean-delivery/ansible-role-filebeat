@@ -18,18 +18,15 @@
 
 filebeat.inputs:
 
-
 # Each - is an input. Most options can be set at the input level, so
 # you can use different inputs for various configurations.
 # Below are the input specific configurations.
-
 
 - type: log
 
 
   # Change to true to enable this input configuration.
   enabled: true
-
 
   # Paths that should be crawled and fetched. Glob based paths.
   paths:
@@ -109,17 +106,12 @@ filebeat.config.modules:
 
 
 #==================== Elasticsearch template setting ==========================
-
-
 setup.template.settings:
   index.number_of_shards: 3
   #index.codec: best_compression
   #_source.enabled: false
 
-
 #================================ General =====================================
-
-
 # The name of the shipper that publishes the network data. It can be used to group
 # all the transactions sent by a single shipper in the web interface.
 name: "{{ filebeat_node_name }}"
@@ -136,8 +128,6 @@ name: "{{ filebeat_node_name }}"
 #  env: staging
 
 
-
-
 #============================== Dashboards =====================================
 # These settings control loading the sample dashboards to the Kibana index. Loading
 # the dashboards is disabled by default and can be enabled either by setting the
@@ -152,13 +142,10 @@ name: "{{ filebeat_node_name }}"
 #setup.dashboards.url:
 
 
-#============================== Kibana =====================================
-
-
+#============================== Kibana =====================================a Фм 
 # Starting with Beats version 6.0.0, the dashboards are loaded via the Kibana API.
 # This requires a Kibana endpoint configuration.
 setup.kibana:
-
 
   # Kibana Host
   # Scheme and port can be left out and will be set to the default (http and 5601)
@@ -172,10 +159,7 @@ setup.kibana:
   # the Default Space will be used.
   #space.id:
 
-
 #============================= Elastic Cloud ==================================
-
-
 # These settings simplify using filebeat with the Elastic Cloud (https://cloud.elastic.co/).
 
 
@@ -191,8 +175,6 @@ setup.kibana:
 
 
 #================================ Outputs =====================================
-
-
 # Configure what output to use when sending the data collected by the beat.
 
 

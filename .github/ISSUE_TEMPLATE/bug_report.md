@@ -1,10 +1,9 @@
 ---
+
 name: 🐛 Bug report
 about: Create a report to help us improve
 
-
 ---
-
 
 <!---
 Verify first that your issue/request is not already reported on GitHub.
@@ -33,7 +32,6 @@ Do not include extra details here, e.g. "vyos_command" not "the network module v
 
 
 ```
-
 
 ##### CONFIGURATION
 <!--- If using Ansible 2.4 or above, paste, BELOW THIS COMMENT, the results of "ansible-config dump --only-changed"

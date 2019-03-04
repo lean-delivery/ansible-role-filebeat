@@ -10,7 +10,6 @@
 # Short-Description: filebeat service
 ### END INIT INFO
 
-
 SCRIPT_NAME=`basename $0`
 HOME_PATH='{{ path.home }}'
 CONFIG_PATH='{{ path.config }}'
@@ -18,16 +17,13 @@ PATH_DATA='{{ path.data }}'
 BIN="$HOME_PATH/bin/filebeat"
 PID="/var/run/$SCRIPT_NAME.pid"
 
-
 function filebeat_start {
     ExecStart={{ path.home }}/bin/filebeat -c {{ path.config }}/filebeat.yml -path.home {{ path.home }} -path.config {{ path.config }} -path.data {{ path.data }} -path.logs {{ path.logs }} & echo $! > $PID
 }
 
-
 function filebeat_stop {
 	pkill -P $(<$PID) && rm -f $PID
 }
-
 
 case "$1" in
 start)

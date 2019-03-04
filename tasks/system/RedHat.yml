@@ -1,9 +1,9 @@
 ---
+
 - name: Setting InitD init system variables
   set_fact:
     filebeat: "{{ filebeat | combine(initd) }}"
   when: ansible_service_mgr != 'systemd'
-
 
 - name: Add Beats repository
   become: True
@@ -15,7 +15,6 @@
     gpgkey: '{{ elastic_gpg_key }}'
     enabled: True
 
-
 - name: Install filebeat
   become: True
   package:
@@ -23,7 +22,6 @@
     state: present
   register: installed_package
   until: installed_package is succeeded
-
 
 - name: Setup path folders
   become: True
@@ -34,7 +32,6 @@
   loop_control:
     loop_var: path_folder
 
-
 - name: Copy Configuration File
   become: True
   template:
@@ -43,7 +40,6 @@
     owner: root
     group: root
     mode: 0644
-
 
 - name: templating init script
   become: True
