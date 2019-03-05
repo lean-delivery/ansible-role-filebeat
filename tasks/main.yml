@@ -20,10 +20,18 @@
     elasticsearch: "{{ elasticsearch | combine(logstash) }}"
   when: logstash is defined and filebeat_output != "elasticsearch"
 
-- name: Installing filebeat on current OS
-  include_tasks: '{{ platform_tasks }}'
+- name: Load a variable file based on distribution or OS family
+  include_vars: '{{ distribution }}'
   with_first_found:
-    - 'system/{{ ansible_os_family }}.yml'
-    - system/not-supported.yml
+    - '{{ ansible_system }}.yml'
+    - default.yml
   loop_control:
-    loop_var: platform_tasks
+    loop_var: distribution
+
+- name: Choose platform based task
+  include_tasks: '{{ platform }}'
+  with_first_found:
+    - '{{ ansible_system }}.yml'
+    - not-supported.yml
+  loop_control:
+    loop_var: platform
