@@ -6,6 +6,7 @@ elastic_gpg_key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
 es_repo_file: 'elastic-{{ fb_major_version }}'
 es_apt_url: 'deb https://artifacts.elastic.co/packages/{{ es_repo_name }}/apt stable main'
 es_yum_url: 'https://artifacts.elastic.co/packages/{{ es_repo_name }}/yum'
+es_use_oss_version: False
 filebeat_node_name: '{{ inventory_hostname }}'
 filebeat_ssl_enabled: False
 

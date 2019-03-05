@@ -1,9 +1,4 @@
 ---
-- name: Setting default values
-  set_fact:
-    path: '{{ path | combine(win.path) }}'
-    ssl: '{{ ssl | combine(win.ssl) }}'
-
 - name: Set filebeat_specific_version if specified
   set_fact:
     filebeat_specific_version: '{{ filebeat_last_version }}'
