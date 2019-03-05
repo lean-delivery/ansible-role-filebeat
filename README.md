@@ -2,27 +2,35 @@ Filebeat Role
 =========
 [![License](https://img.shields.io/badge/license-Apache-green.svg?style=flat)](https://raw.githubusercontent.com/lean-delivery/ansible-role-filebeat/master/LICENSE)
 [![Build Status](https://travis-ci.org/lean-delivery/ansible-role-filebeat.svg?branch=master)](https://travis-ci.org/lean-delivery/ansible-role-filebeat)
+[![Build Status](https://gitlab.com/lean-delivery/ansible-role-filebeat/badges/master/build.svg)](https://gitlab.com/lean-delivery/ansible-role-filebeat/pipelines)
 [![Galaxy](https://img.shields.io/badge/galaxy-lean__delivery.filebeat-blue.svg)](https://galaxy.ansible.com/lean_delivery/filebeat)
-![Ansible](https://img.shields.io/ansible/role/d/role_id.svg)
-![Ansible](https://img.shields.io/badge/dynamic/json.svg?label=min_ansible_version&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2Frole_id%2F&query=$.min_ansible_version)
+![Ansible](https://img.shields.io/ansible/role/d/38385.svg)
+![Ansible](https://img.shields.io/badge/dynamic/json.svg?label=min_ansible_version&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2F38385%2F&query=$.min_ansible_version)
+
 
 ## Summary
+
 
 This role:
   - installs filebeat on Ubuntu, CentOS, Windows
   - copies prepared configuration file (log path, connect to elasticsearch etc.)
 
 
+
+
 Role tasks
 ------------
+
 
 - Prepare server (add elastic repo)
 - [Optional] Create folder(s) for custom paths
 - Install filebeat
 - Copy configuration file
 
+
 Requirements
 ------------
+
 
 - Minimal Version of the ansible for installation: 2.5
  - **Supported OS**:
@@ -34,10 +42,13 @@ Requirements
      - 8, 9
    - Windows
 
+
 ## Role Variables
 --------------
 
+
 You can override any variable below by setting "variable: value" in playbook.
+
 
 - `filebeat_version`
 Is used to select main Filebeat branch to be installed (5.x or 6.x current stable versions). Default value is `6`.
@@ -63,6 +74,7 @@ Turns on/off SSL connection between filebeat and logstash/elasticsearch. SSL opt
     certificate_authorities: 'c:\CA\ca-root.pem'
 ```
 
+
 The `path` section of the configuration options defines where Filebeat looks for its files. For example, Filebeat looks for the Elasticsearch template file in the configuration path and writes log files in the logs path. Filebeat looks for its registry files in the data path. Default values for Linux host are set up this way:
 ```
 path:
@@ -82,30 +94,37 @@ path:
 - `win_download_path`
 Temp directory for Windows to download and upzip Filebeat package. Default value is `'{{ ansible_env.TEMP }}/filebeat'` (ansible_env.TEMP value solves idempotence issue)
 
+
 - `input_logpath`
 Path to log files for *NIX OS family. Default value is `"/var/log/*.log"`
 - `win_input_logpath`
 Path to log files for WIN OS family. Default value is `'c:\windows\*.log'`
 
+
 ## Output customization:
 - `filebeat_output`
 Is used to configure what output to use when sending data (`elasticsearch` or `logstash`). Default value is `elasticsearch`
+
 
 - `elasticsearch.host`
 Array of hosts to connect to. Default value is `localhost`
 - `elasticsearch.port`
 Value for setting custom port. Default value is `9200`
 
+
 - `logstash.host`
 Array of hosts to connect to. Default value is `localhost`
 - `logstash.port`
 Value for setting custom port. Default value is `5044`
 
+
 ## Advanced config parameters:
+
 
 The `filebeat(systemd)\initd` section of the configuration  options defines which init script will be used to manage filebeat service depending on the *nix OS. Custom paths will be taken into account (if configured).
 - `filebeat_service_name`
 Name of nssm\init script, which manages filebeat service
+
 
 - `filebeat_bulk_max_size`
 Maximum number of events to bulk in a single Logstash request. Default value is `500`
@@ -128,15 +147,20 @@ Defines the buffer size. Default value is `65535`
 - `filebeat_logname`
 Name of the logging files. Default value is `"filebeat.log"`
 
+
 ## Dependencies
 ------------
 
+
 ca-cert (only for installation with SSL)
+
 
 Example Playbook
 ----------------
 
+
 ### Installing Filebeat 6.x version:
+
 
 ```yaml
 - name: Install filebeat
@@ -145,6 +169,7 @@ Example Playbook
     - role: ansible-role-filebeat
 ```
 ### Installing Filebeat 6.x version with custom path to log files and elasticsearch output:
+
 
 ```yaml
 - name: Install filebeat
@@ -158,12 +183,15 @@ Example Playbook
       port: 9200
 ```
 
+
 License
 -------
 Apache
 
+
 Author Information
 ------------------
+
 
 authors:
   - Lean Delivery Team <team@lean-delivery.com>

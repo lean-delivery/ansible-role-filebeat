@@ -56,7 +56,6 @@
     src: 'filebeat.yml.j2'
     dest: '{{ path.config }}\filebeat.yml'
 
-# Check this
 - name: Copy service file
   win_template:
     src: filebeat-template.bat.j2
@@ -71,7 +70,7 @@
 - name: Create service via nssm
   win_nssm:
     name: '{{ filebeat_service_name }}'
-    application: '{{ path.home }}\\filebeat.bat'
+    application: '{{ path.home }}\filebeat.bat'
     state: present
   changed_when: False
 

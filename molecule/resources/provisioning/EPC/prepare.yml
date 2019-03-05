@@ -13,6 +13,7 @@
       become: True
       changed_when: False
 
+
 - name: Prepare RHEL
   hosts: rhel_family
   gather_facts: False

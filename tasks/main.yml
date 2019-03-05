@@ -20,7 +20,7 @@
     elasticsearch: "{{ elasticsearch | combine(logstash) }}"
   when: logstash is defined and filebeat_output != "elasticsearch"
 
-- name: "Installing filebeat on current OS"
+- name: Installing filebeat on current OS
   include_tasks: '{{ platform_tasks }}'
   with_first_found:
     - 'system/{{ ansible_os_family }}.yml'

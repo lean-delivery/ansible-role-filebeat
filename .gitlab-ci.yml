@@ -1,8 +1,10 @@
 ---
+
 # Run all tests
 stages:
   - lint
   - deployment test
+
 
 before_script:
   - rm -rf molecule/resources/provisioning
