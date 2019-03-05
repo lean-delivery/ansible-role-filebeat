@@ -1,5 +1,4 @@
 ---
-
 # Run all tests
 stages:
   - lint
