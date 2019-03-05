@@ -1,5 +1,4 @@
 ---
-
 - name: Setting default values
   set_fact:
     path: '{{ path | combine(win.path) }}'
@@ -71,9 +70,9 @@
 - name: Create service via nssm
   win_nssm:
     name: '{{ filebeat_service_name }}'
-    application: '{{ path.home }}\\filebeat.bat'
+    application: '{{ path.home }}\filebeat.bat'
     state: present
-  # changed_when: False
+  changed_when: False
 
 - name: start a services
   win_service:

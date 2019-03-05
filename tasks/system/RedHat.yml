@@ -1,5 +1,4 @@
 ---
-
 - name: Setting InitD init system variables
   set_fact:
     filebeat: "{{ filebeat | combine(initd) }}"
