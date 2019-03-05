@@ -9,3 +9,5 @@ default_ssl:
   key: /etc/pki/tls/private/server.key
   certificate: /etc/pki/tls/certs/server.crt
   certificate_authorities: /etc/pki/CA/ca-root.pem
+
+default_logpath: /var/log/*.log

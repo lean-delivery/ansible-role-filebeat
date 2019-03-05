@@ -30,11 +30,7 @@ filebeat.inputs:
 
   # Paths that should be crawled and fetched. Glob based paths.
   paths:
-{% if ansible_os_family == "RedHat" or "Debian" %}
     - {{ input_logpath }}
-#{% elif ansible_os_family == "Windows" %}
-#   - {{ win_input_logpath }}
-{% endif %}
     #- /var/log/*.log
     #- c:\programdata\elasticsearch\logs\*
 
@@ -195,9 +191,9 @@ output.{{ filebeat_output }}:
 
 
 ssl.enabled: {{ filebeat_ssl_enabled }}
-{% if filebeat_ssl_enabled and ansible_os_family == "RedHat" %}
-  ssl.certificate: {{ filebeat_cert_file }}
-  ssl.key: {{ filebeat_pkey_file }}
+{% if filebeat_ssl_enabled %}
+  ssl:
+{{ ssl | to_nice_yaml | indent(4, true) }}
 {% endif %}
   
 #-------------------------- Elasticsearch output ------------------------------
@@ -246,11 +242,7 @@ processors:
 logging.to_syslog: {{ filebeat_logging_to_syslog }}
 logging.to_files: {{ filebeat_logging_to_files }}
 logging.files:
-{% if ansible_os_family == "RedHat" %}
   path: {{ path.logs }}
-{% elif ansible_os_family == "Windows" %}
-  path: {{ win.path.logs }}
-{% endif %}
   name: {{ filebeat_logname }}
   rotateeverybytes: {{ filebeat_rotateeverybytes }}
   keepfiles: {{ filebeat_keepfiles }}
