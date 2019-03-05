@@ -1,5 +1,4 @@
 ---
-
 filebeat_version: 6.x
 filebeat_last_version: 6.6.0
 elastic_gpg_key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
