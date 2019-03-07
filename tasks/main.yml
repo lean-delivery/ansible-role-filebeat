@@ -1,14 +1,14 @@
 ---
 # Install and run filebeat
-- name: Set elastic_branch from version
-  set_fact:
-    elastic_branch: "{{ filebeat_version.split('.')[0] }}"
-    filebeat_version_suffix: "{{ filebeat_version.split('.')[1] }}"
+# - name: Set elastic_branch from version
+#   set_fact:
+#     elastic_branch: "{{ filebeat_version.split('.')[0] }}"
+#     filebeat_version_suffix: "{{ filebeat_version.split('.')[1] }}"
 
 - name: Set filebeat_specific_version if specified
   set_fact:
     filebeat_specific_version: "{{ filebeat_version }}"
-  when: filebeat_version_suffix != 'x'
+  when: filebeat_version.split('.')[1] != 'x'
 
 - name: Setting elastic values
   set_fact:
