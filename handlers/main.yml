@@ -1,12 +1,3 @@
-<<<<<<< HEAD
----
-# handlers file for ansible-role-filebeat
-- name: Restart filebeat
-  service:
-    name: filebeat
-    state: restarted
-  become: True
-=======
 ---
 # handlers file for ansible-role-filebeat
 - name: start_filebeat_systemd
@@ -35,4 +26,3 @@
     name: filebeat
     state: restarted
   become: True
->>>>>>> 8532cd6289f938c3de1897cccc432ed347ebd036

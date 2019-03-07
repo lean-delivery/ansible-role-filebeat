@@ -1,45 +1,3 @@
-<<<<<<< HEAD
----
-# defaults file for ansible-role-filebeat
-elastic_branch: 6
-elastic_gpg_key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
-
-nix_filebeat_input_logpath: "/var/log/*.log"
-win_filebeat_input_logpath: 'c:\windows\*.log'
-
-filebeat_ignore_older: 0
-filebeat_scan_frequency: "15s"
-filebeat_harvester_buffer_size: 65535
-#filebeat_backoff: 2s
-
-filebeat_node_name: "{{ inventory_hostname }}"
-
-filebeat_output: "elasticsearch"
-
-elasticsearch:
-  host: localhost
-  port: 9200
-
-logstash:
-  host: localhost
-  port: 5044
-
-filebeat_bulk_max_size: 500
-filebeat_worker: 1
-
-filebeat_ssl_enabled: false
-filebeat_cert_file: "/etc/pki/tls/certs/server.crt"
-filebeat_pkey_file: "/etc/pki/CA/ca-root.pem"
-
-filebeat_logging_to_syslog: false
-filebeat_logging_to_files: true
-filebeat_rotateeverybytes: 104857600
-filebeat_keepfiles: 30
-nix_filebeat_logpath: "/var/log/filebeat"
-filebeat_logname: "filebeat.log"
-
-win_filebeat_logpath: 'c:\programdata\filebeat\logs'
-=======
 ---
 elastic_branch: 6
 filebeat_version: '{{ fb_major_version }}'
@@ -100,4 +58,3 @@ filebeat_ignore_older: 0
 filebeat_scan_frequency: "15s"
 filebeat_harvester_buffer_size: 65535
 filebeat_logname: "filebeat.log"
->>>>>>> 8532cd6289f938c3de1897cccc432ed347ebd036

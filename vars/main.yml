@@ -1,7 +1,3 @@
-<<<<<<< HEAD
----
-# vars file for ansible-role-filebeat
-=======
 ---
 fb_major_version: '{{ elastic_branch }}.x'
 es_repo_name: '{{ es_use_oss_version | ternary("oss-" + fb_major_version, fb_major_version) }}'
@@ -16,4 +12,3 @@ ssl:
   key: '{{ fb_ssl_key }}'
   certificate: '{{ fb_ssl_certificate }}'
   certificate_authorities: '{{ fb_ssl_certificate_authorities }}'
->>>>>>> 8532cd6289f938c3de1897cccc432ed347ebd036

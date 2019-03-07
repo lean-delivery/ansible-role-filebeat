@@ -1,15 +1,3 @@
-<<<<<<< HEAD
----
-# Install and run filebeat
-
-- name: "Installing filebeat on current OS"
-  include_tasks: '{{ platform_tasks }}'
-  with_first_found:
-    - 'system/{{ ansible_os_family }}.yml'
-    - system/not-supported.yml
-  loop_control:
-    loop_var: platform_tasks
-=======
 ---
 # Install and run filebeat
 # - name: Set elastic_branch from version
@@ -47,4 +35,3 @@
     - not-supported.yml
   loop_control:
     loop_var: platform
->>>>>>> 8532cd6289f938c3de1897cccc432ed347ebd036

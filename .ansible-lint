@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 exclude_paths:
  - ./.travis.yml
  - ./molecule/
@@ -6,12 +5,3 @@ rulesdir:
   - ~/ansible-lint-rules/rules/
 use_default_rules: true
 verbosity: 1
-=======
-exclude_paths:
- - ./.travis.yml
- - ./molecule/
-rulesdir:
-  - ~/ansible-lint-rules/rules/
-use_default_rules: true
-verbosity: 1
->>>>>>> 8532cd6289f938c3de1897cccc432ed347ebd036
