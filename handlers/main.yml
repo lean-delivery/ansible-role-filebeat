@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 # handlers file for ansible-role-filebeat
 - name: Restart filebeat
@@ -5,3 +6,33 @@
     name: filebeat
     state: restarted
   become: True
+=======
+---
+# handlers file for ansible-role-filebeat
+- name: start_filebeat_systemd
+  become: True
+  systemd:
+    name: filebeat
+    state: started
+    enabled: True
+    daemon-reload: True
+
+- name: start_filebeat_initd
+  become: True
+  service:
+    name: filebeat
+    pattern: "{{ path.home }}/bin/filebeat"
+    state: started
+    enabled: True
+
+- name: Reload systemd configuration
+  systemd:
+    daemon_reload: True
+  become: True
+
+- name: Restart filebeat
+  service:
+    name: filebeat
+    state: restarted
+  become: True
+>>>>>>> 8532cd6289f938c3de1897cccc432ed347ebd036

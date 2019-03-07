@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 ---
 default_context:
   role_name: filebeat
+=======
+---
+default_context:
+  role_name: filebeat
+>>>>>>> 8532cd6289f938c3de1897cccc432ed347ebd036

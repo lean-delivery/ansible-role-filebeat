@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 galaxy_info:
   role_name: filebeat
@@ -10,3 +11,37 @@ galaxy_info:
   platforms: [{name: [EL], versions: [7]}]
   galaxy_tags: [development, system]
 dependencies: []
+=======
+---
+dependencies: []
+
+galaxy_info:
+  role_name: filebeat
+  author: "Lean Delivery Team <team@lean-delivery.com>"
+  description: "Role for filebeat installation"
+  company: "EPAM Systems"
+  issue_tracker_url: "https://github.com/lean-delivery/ansible-role-filebeat/issues"
+  license: "Apache"
+  min_ansible_version: 2.5
+
+  platforms:
+    - name: EL
+      versions:
+        - 6
+        - 7
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+    - name: Debian
+      versions:
+        - stretch
+        - jessie
+  galaxy_tags:
+    - filebeat
+    - elastic
+    - elk
+    - logging
+    - monitoring
+    - system
+>>>>>>> 8532cd6289f938c3de1897cccc432ed347ebd036

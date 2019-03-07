@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ---
 # Install and run filebeat
 
@@ -8,3 +9,42 @@
     - system/not-supported.yml
   loop_control:
     loop_var: platform_tasks
+=======
+---
+# Install and run filebeat
+# - name: Set elastic_branch from version
+#   set_fact:
+#     elastic_branch: "{{ filebeat_version.split('.')[0] }}"
+#     filebeat_version_suffix: "{{ filebeat_version.split('.')[1] }}"
+
+- name: Set filebeat_specific_version if specified
+  set_fact:
+    filebeat_specific_version: "{{ filebeat_version }}"
+  when: filebeat_version.split('.')[1] != 'x'
+
+- name: Setting elastic values
+  set_fact:
+    elasticsearch: "{{ elasticsearch | combine(elasticsearch) }}"
+  when: elasticsearch is defined
+
+- name: Setting logstash output values if defined
+  set_fact:
+    elasticsearch: "{{ elasticsearch | combine(logstash) }}"
+  when: logstash is defined and filebeat_output != "elasticsearch"
+
+- name: Load a variable file based on distribution or OS family
+  include_vars: '{{ distribution }}'
+  with_first_found:
+    - '{{ ansible_system }}.yml'
+    - default.yml
+  loop_control:
+    loop_var: distribution
+
+- name: Choose platform based task
+  include_tasks: '{{ platform }}'
+  with_first_found:
+    - '{{ ansible_system }}.yml'
+    - not-supported.yml
+  loop_control:
+    loop_var: platform
+>>>>>>> 8532cd6289f938c3de1897cccc432ed347ebd036

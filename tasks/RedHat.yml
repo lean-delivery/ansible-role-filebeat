@@ -1,0 +1,39 @@
+---
+- name: Setting InitD init system variables
+  set_fact:
+    filebeat: "{{ filebeat | combine(initd) }}"
+  when: ansible_service_mgr != 'systemd'
+
+- name: Set Filebeat version if defined
+  set_fact:
+    fb_package_name: '{{ fb_package_name }}-{{ filebeat_version }}'
+  when: filebeat_version.find('.x') == -1
+
+- block:
+    - name: Importing latest logstash GPG Key
+      rpm_key:
+        key: '{{ elastic_gpg_key }}'
+        state: present
+      register: installed_key
+      until: installed_key is succeeded
+
+    - name: Add elasticsearch yum repository
+      yum_repository:
+        name: elasticsearch
+        description: Elasticsearch repository
+        file: '{{ es_repo_file }}'
+        baseurl: '{{ es_yum_url }}'
+        gpgcheck: True
+        gpgkey: '{{ elastic_gpg_key }}'
+        enabled: True
+        state: present
+
+    - name: Redhat - Installing Filebeat package
+      yum:
+        name: '{{ fb_package_name }}'
+        state: present
+        update_cache: True
+      register: installed_package
+      until: installed_package is succeeded
+      notify: Restart filebeat
+  become: True

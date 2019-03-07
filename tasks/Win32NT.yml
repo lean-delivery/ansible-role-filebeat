@@ -1,0 +1,70 @@
+---
+- name: Set filebeat_specific_version if specified
+  set_fact:
+    filebeat_specific_version: '{{ filebeat_last_version }}'
+  when: filebeat_version.split('.')[1] == 'x'
+
+- name: Set filebeat_inputs_name
+  set_fact:
+    filebeat_inputs_name: inputs
+  when: filebeat_specific_version is version_compare('6.3.0', operator='ge', strict=True)
+
+- name: Create temporary build directory
+  win_file:
+    state: directory
+    path: '{{ win_download_path }}'
+
+- name: Setup path folders
+  win_file:
+    path: '{{ path_folder.value }}'
+    state: directory
+  with_dict: '{{ path }}'
+  loop_control:
+    loop_var: path_folder
+
+- name: Download filebeat
+  win_get_url:
+    url: 'https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-{{ filebeat_specific_version }}-windows-x86_64.zip'
+    dest: '{{ win_download_path }}\filebeat.zip'
+    force: False
+
+- name: Unzip filebeat
+  win_unzip:
+    src: '{{ win_download_path }}/filebeat.zip'
+    dest: '{{ win_download_path }}'
+    creates: '{{ win_download_path }}/filebeat-{{ filebeat_specific_version }}-windows-x86_64'
+
+- name: Copy files to home directory
+  win_copy:
+    src: '{{ win_download_path }}/filebeat-{{ filebeat_specific_version }}-windows-x86_64/'
+    dest: '{{ path.home }}/'
+    force: False
+    remote_src: True
+
+- name: templating filebeat in/out configuration
+  win_template:
+    src: 'filebeat.yml.j2'
+    dest: '{{ path.config }}\filebeat.yml'
+
+- name: Copy service file
+  win_template:
+    src: filebeat-template.bat.j2
+    dest: '{{ path.home }}\\filebeat.bat'
+
+- name: Install nssm
+  win_chocolatey:
+    name: nssm
+    state: present
+
+# # Idempotence test fails due https://github.com/ansible/ansible/issues/20625 bug.
+- name: Create service via nssm
+  win_nssm:
+    name: '{{ filebeat_service_name }}'
+    application: '{{ path.home }}\filebeat.bat'
+    state: present
+  changed_when: False
+
+- name: start a services
+  win_service:
+    name: '{{ filebeat_service_name }}'
+    state: started

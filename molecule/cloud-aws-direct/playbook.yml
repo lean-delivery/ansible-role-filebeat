@@ -1,5 +1,14 @@
+<<<<<<< HEAD
 ---
 - name: Converge
   hosts: all
   roles:
     - role: ansible-role-filebeat
+=======
+---
+
+- name: Converge
+  hosts: all
+  roles:
+    - role: ansible-role-filebeat
+>>>>>>> 8532cd6289f938c3de1897cccc432ed347ebd036
