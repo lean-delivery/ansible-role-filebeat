@@ -37,21 +37,3 @@
       until: installed_package is succeeded
       notify: Restart filebeat
   become: True
-
-# - name: Add Beats repository
-#   become: True
-#   yum_repository:
-#     name: "filebeat-{{ filebeat_version }}"
-#     description: "Beats repository"
-#     baseurl: 'https://artifacts.elastic.co/packages/{{ filebeat_version }}/yum'
-#     gpgcheck: True
-#     gpgkey: '{{ elastic_gpg_key }}'
-#     enabled: True
-
-# - name: Install filebeat
-#   become: True
-#   package:
-#     name: filebeat
-#     state: present
-#   register: installed_package
-#   until: installed_package is succeeded
