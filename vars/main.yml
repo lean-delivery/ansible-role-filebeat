@@ -1,2 +1,15 @@
 ---
 # vars file for ansible-role-filebeat
+fb_major_version: '{{ elastic_branch }}.x'
+es_repo_name: '{{ es_use_oss_version | ternary("oss-" + fb_major_version, fb_major_version) }}'
+fb_package_name: '{{ es_use_oss_version | ternary("filebeat-oss", "filebeat") }}'
+path:
+  home: '{{ fb_home }}'
+  config: '{{ fb_conf_dir }}'
+  data: '{{ fb_data_dir }}'
+  logs: '{{ fb_log_dir }}'
+
+ssl:
+  key: '{{ fb_ssl_key }}'
+  certificate: '{{ fb_ssl_certificate }}'
+  certificate_authorities: '{{ fb_ssl_certificate_authorities }}'

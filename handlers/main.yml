@@ -15,3 +15,14 @@
     pattern: "{{ path.home }}/bin/filebeat"
     state: started
     enabled: true
+
+- name: Reload systemd configuration
+  systemd:
+    daemon_reload: true
+  become: true
+
+- name: Restart filebeat
+  service:
+    name: filebeat
+    state: restarted
+  become: true

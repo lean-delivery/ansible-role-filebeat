@@ -1,37 +1,27 @@
 ---
-filebeat_version: 6.x
-filebeat_last_version: 6.6.0
+elastic_branch: 7
+filebeat_version: '{{ fb_major_version }}'
+filebeat_last_version: 7.3.0
 elastic_gpg_key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
-filebeat_node_name: "{{ inventory_hostname }}"
+es_repo_file: 'elastic-{{ fb_major_version }}'
+es_apt_url: 'deb https://artifacts.elastic.co/packages/{{ es_repo_name }}/apt stable main'
+es_yum_url: 'https://artifacts.elastic.co/packages/{{ es_repo_name }}/yum'
+es_use_oss_version: true
+filebeat_node_name: '{{ inventory_hostname }}'
 filebeat_ssl_enabled: false
 
-path:
-  home: /usr/share/filebeat
-  config: /etc/filebeat
-  data: /var/lib/filebeat
-  logs: /var/log/filebeat
+fb_home: '{{ default["fb_home"] }}'
+fb_log_dir: '{{ default["fb_log_dir"] }}'
+fb_conf_dir: '{{ default["fb_conf_dir"] }}'
+fb_data_dir: '{{ default["fb_data_dir"] }}'
 
-ssl:
-  key: "/etc/pki/tls/private/server.key"
-  certificate: "/etc/pki/tls/certs/server.crt"
-  certificate_authorities: "/etc/pki/CA/ca-root.pem"
-
-win:
-  path:
-    home: 'C:\program files\filebeat'
-    config: 'C:\program files\filebeat'
-    data: 'c:\programdata\filebeat'
-    logs: 'c:\programdata\filebeat\logs'
-
-  ssl:
-    key: 'c:\tls\private\server.key'
-    certificate: 'c:\tls\certs\server.pem'
-    certificate_authorities: 'c:\CA\ca-root.pem'
+fb_ssl_key: '{{ default_ssl["key"] }}'
+fb_ssl_certificate: '{{ default_ssl["certificate"] }}'
+fb_ssl_certificate_authorities: '{{ default_ssl["certificate_authorities"] }}'
 
 win_download_path: '{{ ansible_env.TEMP }}/filebeat'
 
-input_logpath: '/var/log/*.log'
-win_input_logpath: 'c:\windows\*.log'
+input_logpath: '{{ default_logpath }}'
 
 #output customization:
 filebeat_output: "elasticsearch"

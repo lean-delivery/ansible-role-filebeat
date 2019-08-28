@@ -1,0 +1,35 @@
+---
+- name: Installing filebeat on current OS
+  include_tasks: '{{ platform_tasks }}'
+  with_first_found:
+    - '{{ ansible_os_family }}.yml'
+    - not-supported.yml
+  loop_control:
+    loop_var: platform_tasks
+
+- name: Configure settings block
+  block:
+    - name: Setup path folders
+      file:
+        path: '{{ path_folder.value }}'
+        state: directory
+      with_dict: '{{ path }}'
+      loop_control:
+        loop_var: path_folder
+
+    - name: Copy Configuration File
+      template:
+        src: filebeat.yml.j2
+        dest: '{{ path.config }}/filebeat.yml'
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Copy service configuration file
+      template:
+        src: '{{ fb_service_script }}.j2'
+        dest: '{{ fb_service_path }}/{{ fb_service_script }}'
+        mode: '{{ fb_service_script_mode }}'
+        force: true
+      notify: '{{ fb_service_handlers }}'
+  become: true

@@ -1,0 +1,6 @@
+---
+fb_service_script: '{{ filebeat_service_name }}'
+fb_service_path: /etc/init.d
+fb_service_script_mode: 0755
+fb_service_handlers:
+  - Restart filebeat
