@@ -1,0 +1,13 @@
+---
+default:
+  fb_home: C:\program files\filebeat
+  fb_log_dir: C:\program files\filebeat\logs
+  fb_conf_dir: C:\program files\filebeat
+  fb_data_dir: C:\program files\filebeat\data
+
+default_ssl:
+  key: c:\tls\private\server.key
+  certificate: c:\tls\certs\server.pem
+  certificate_authorities: c:\CA\ca-root.pem
+
+default_logpath: c:\windows\*.log

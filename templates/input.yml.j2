@@ -1,0 +1,10 @@
+- {{ filebeat_inputs_type }}: log
+  enabled: true
+  paths:
+    {{ fb_input.paths | to_nice_yaml | indent(4, false) }}
+  fields:
+    {{ fb_input.fields | to_nice_yaml | indent(4, false) }}
+
+  ignore_older: {{ filebeat_ignore_older }}
+  scan_frequency: {{ filebeat_scan_frequency }}
+  harvester_buffer_size: {{ filebeat_harvester_buffer_size }}

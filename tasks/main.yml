@@ -1,29 +1,24 @@
 ---
-# Install and run filebeat
-- name: Set elastic_branch from version
-  set_fact:
-    elastic_branch: "{{ filebeat_version.split('.')[0] }}"
-    filebeat_version_suffix: "{{ filebeat_version.split('.')[1] }}"
+- name: Load a variable file based on the OS type, or a default if not found
+  include_vars: '{{ platform_vars }}'
+  with_first_found:
+    - '{{ ansible_system }}.yml'
+    - default.yml
+  loop_control:
+    loop_var: platform_vars
 
-- name: Set filebeat_specific_version if specified
-  set_fact:
-    filebeat_specific_version: "{{ filebeat_version }}"
-  when: filebeat_version_suffix != 'x'
+- name: Load a variable file based on the service manager
+  include_vars: '{{ service_manager }}'
+  with_first_found:
+    - '{{ ansible_service_mgr }}.yml'
+    - systemv.yml
+  loop_control:
+    loop_var: service_manager
 
-- name: Setting elastic values
-  set_fact:
-    elasticsearch: "{{ elasticsearch | combine(elasticsearch) }}"
-  when: elasticsearch is defined
-
-- name: Setting logstash output values if defined
-  set_fact:
-    elasticsearch: "{{ elasticsearch | combine(logstash) }}"
-  when: logstash is defined and filebeat_output != "elasticsearch"
-
-- name: Installing filebeat on current OS
+- name: Configure and install packages for current OS
   include_tasks: '{{ platform_tasks }}'
   with_first_found:
-    - 'system/{{ ansible_os_family }}.yml'
-    - system/not-supported.yml
+    - '{{ ansible_system }}.yml'
+    - not-supported.yml
   loop_control:
     loop_var: platform_tasks

@@ -1,0 +1,7 @@
+---
+fb_service_script: '{{ filebeat_service_name }}.service'
+fb_service_path: /usr/lib/systemd/system
+fb_service_script_mode: 0644
+fb_service_handlers:
+  - Reload systemd configuration
+  - Restart filebeat

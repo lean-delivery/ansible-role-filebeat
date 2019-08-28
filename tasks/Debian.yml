@@ -1,0 +1,39 @@
+---
+- name: Set Filebeat version if defined
+  set_fact:
+    fb_package_name: '{{ fb_package_name }}={{ filebeat_version }}'
+  when: filebeat_version.find('.x') == -1
+
+- block:
+    - name: Install dependency for Debian
+      package:
+        name: apt-transport-https
+        state: present
+      register: debian_dependency
+      until: debian_dependency is succeeded
+
+    - name: Add elasticsearch apt key
+      apt_key:
+        url: '{{ elastic_gpg_key }}'
+        state: present
+      register: add_gpg_key
+      until: add_gpg_key is succeeded
+
+    - name: Add Beats repository
+      apt_repository:
+        repo: '{{ es_apt_url }}'
+        state: present
+        update_cache: true
+
+    - name: Install filebeat
+      apt:
+        name: '{{ fb_package_name }}'
+        state: present
+      register: installed_package
+      until: installed_package is succeeded
+
+    - name: Create folder path for service script
+      file:
+        path: /usr/lib/systemd/system
+        state: directory
+  become: true

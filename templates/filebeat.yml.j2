@@ -15,33 +15,29 @@
 
 #=========================== Filebeat inputs =============================
 
+filebeat.config.inputs:
+  enabled: true
+  path: configs/*.yml
 
-filebeat.inputs:
+#filebeat.inputs:
 
 # Each - is an input. Most options can be set at the input level, so
 # you can use different inputs for various configurations.
 # Below are the input specific configurations.
 
-- type: log
+#- type: log
 
 
   # Change to true to enable this input configuration.
-  enabled: true
+#  enabled: true
 
   # Paths that should be crawled and fetched. Glob based paths.
-  paths:
-{% if ansible_os_family == "RedHat" or "Debian" %}
-    - {{ input_logpath }}
-#{% elif ansible_os_family == "Windows" %}
-#   - {{ win_input_logpath }}
-{% endif %}
-    #- /var/log/*.log
-    #- c:\programdata\elasticsearch\logs\*
+#  paths:
 
 
-  ignore_older: {{ filebeat_ignore_older }}
-  scan_frequency: {{ filebeat_scan_frequency }}
-  harvester_buffer_size: {{ filebeat_harvester_buffer_size }}
+ # ignore_older: {{ filebeat_ignore_older }}
+#  scan_frequency: {{ filebeat_scan_frequency }}
+#  harvester_buffer_size: {{ filebeat_harvester_buffer_size }}
 
 
   # Exclude lines. A list of regular expressions to match. It drops the lines that are

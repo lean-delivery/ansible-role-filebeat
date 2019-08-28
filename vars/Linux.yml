@@ -1,0 +1,13 @@
+---
+default:
+  fb_home: /usr/share/filebeat
+  fb_log_dir: /var/log/filebeat
+  fb_conf_dir: /etc/filebeat
+  fb_data_dir: /var/lib/filebeat
+
+default_ssl:
+  key: /etc/pki/tls/private/server.key
+  certificate: /etc/pki/tls/certs/server.crt
+  certificate_authorities: /etc/pki/CA/ca-root.pem
+
+default_logpath: /var/log/*.log

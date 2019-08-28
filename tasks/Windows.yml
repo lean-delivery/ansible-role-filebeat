@@ -12,12 +12,12 @@
 - name: Set filebeat_inputs_type
   set_fact:
     filebeat_inputs_type: type
-  when: filebeat_specific_version is version_compare('6.0.0', operator='ge', strict=True)
+  when: filebeat_specific_version is version_compare('6.0.0', operator='ge', strict=true)
 
 - name: Set filebeat_inputs_name
   set_fact:
     filebeat_inputs_name: inputs
-  when: filebeat_specific_version is version_compare('6.3.0', operator='ge', strict=True)
+  when: filebeat_specific_version is version_compare('6.3.0', operator='ge', strict=true)
 
 - name: Create temporary build directory
   win_file:
@@ -36,7 +36,7 @@
   win_get_url:
     url: 'https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-{{ filebeat_specific_version }}-windows-x86_64.zip'
     dest: '{{ win_download_path }}\filebeat.zip'
-    force: False
+    force: false
 
 - name: Unzip filebeat
   win_unzip:
@@ -48,8 +48,8 @@
   win_copy:
     src: '{{ win_download_path }}/filebeat-{{ filebeat_specific_version }}-windows-x86_64/'
     dest: '{{ path.home }}/'
-    force: False
-    remote_src: True
+    force: false
+    remote_src: true
 
 - name: templating filebeat in/out configuration
   win_template:
@@ -72,7 +72,7 @@
     name: '{{ filebeat_service_name }}'
     application: '{{ path.home }}\filebeat.bat'
     state: present
-  changed_when: False
+  # changed_when: false
 
 - name: start a services
   win_service:
