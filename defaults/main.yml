@@ -2,6 +2,7 @@
 elastic_branch: 7
 filebeat_version: '{{ fb_major_version }}'
 filebeat_last_version: 7.3.0
+filebeat_find_last_version: false
 elastic_gpg_key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
 es_repo_file: 'elastic-{{ fb_major_version }}'
 es_apt_url: 'deb https://artifacts.elastic.co/packages/{{ es_repo_name }}/apt stable main'
@@ -26,7 +27,7 @@ win_download_path: '{{ ansible_env.TEMP }}/filebeat'
 input_logpath: '{{ default_logpath }}'
 
 #output customization:
-filebeat_output: "elasticsearch"
+filebeat_output: elasticsearch
 
 elasticsearch:
   host: localhost
@@ -36,19 +37,6 @@ logstash:
   host: localhost
   port: 5044
 
-#Advanced config parameters:
-filebeat:
-  service:
-    path: "/usr/lib/systemd/system/{{ filebeat_service_name }}.service"
-    template: filebeat-template.systemd
-    handler: start_filebeat_systemd
-
-initd:
-  service:
-    path: /etc/init.d/{{ filebeat_service_name }}
-    template: filebeat-template.initd
-    handler: start_filebeat_initd
-
 filebeat_service_name: filebeat
 filebeat_bulk_max_size: 500
 filebeat_worker: 1
@@ -57,6 +45,6 @@ filebeat_logging_to_files: true
 filebeat_rotateeverybytes: 104857600
 filebeat_keepfiles: 30
 filebeat_ignore_older: 0
-filebeat_scan_frequency: "15s"
+filebeat_scan_frequency: 15s
 filebeat_harvester_buffer_size: 65535
 filebeat_logname: "filebeat.log"
