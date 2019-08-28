@@ -52,9 +52,8 @@ provisioner:
         ansible_winrm_server_cert_validation: ignore
   playbooks:
     create: ../resources/provisioning/AWS/create.yml
-    prepare: ../resources/provisioning/AWS/prepare.yml
     destroy: ../resources/provisioning/AWS/destroy.yml
-    verify: ../resources/tests/verify.yml
+    verify: ../resources/tests/verify_win.yml
   lint:
     name: ansible-lint
 scenario:

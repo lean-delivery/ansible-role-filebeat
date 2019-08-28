@@ -7,6 +7,11 @@
 
 - name: Restart filebeat
   service:
-    name: filebeat
+    name: '{{ filebeat_service_name }}'
     state: restarted
   become: true
+
+- name: Restart filebeat win
+  win_service:
+    name: '{{ filebeat_service_name }}'
+    state: restarted

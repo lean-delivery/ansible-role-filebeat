@@ -30,5 +30,5 @@
         update_cache: true
       register: installed_package
       until: installed_package is succeeded
-      notify: Restart filebeat
+      notify: '{{ fb_service_handlers }}'
   become: true

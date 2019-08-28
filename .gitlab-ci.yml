@@ -30,7 +30,7 @@ Lint:
   tags:
     - aws
 
-.Docker filebeat:
+Docker filebeat:
   stage: deployment test
   script:
     - molecule test -s default
@@ -46,7 +46,9 @@ AWS filebeat:
   tags:
     - aws
 
-.AWS filebeat-win:
+AWS filebeat-win:
+  image:
+    name: leandelivery/docker-ansible-ci:ansible-2.8
   variables:
     AWS_REGION: us-east-1
   stage: deployment test
