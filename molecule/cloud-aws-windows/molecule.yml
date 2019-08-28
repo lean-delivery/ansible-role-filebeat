@@ -58,7 +58,7 @@ provisioner:
   lint:
     name: ansible-lint
 scenario:
-  name: cloud-aws-direct
+  name: cloud-aws-windows
 verifier:
   name: ansible
   lint:
