@@ -31,7 +31,7 @@
 - name: Load a variable file based on the OS type, or a default if not found
   include_vars: '{{ platform_vars }}'
   with_first_found:
-    - '{{ ansible_os_family }}.yml'
+    - '{{ ansible_system }}.yml'
     - default.yml
   loop_control:
     loop_var: platform_vars
