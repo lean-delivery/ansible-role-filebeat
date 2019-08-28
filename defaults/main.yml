@@ -10,6 +10,7 @@ es_use_oss_version: true
 filebeat_node_name: '{{ inventory_hostname }}'
 filebeat_ssl_enabled: false
 filebeat_inputs: []
+filebeat_inputs_type: type
 
 fb_home: '{{ default["fb_home"] }}'
 fb_log_dir: '{{ default["fb_log_dir"] }}'
