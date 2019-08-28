@@ -47,7 +47,7 @@
 - name: Configure and install packages for current OS
   include_tasks: '{{ platform_tasks }}'
   with_first_found:
-    - 'system/{{ ansible_os_family }}.yml'
-    - system/not-supported.yml
+    - '{{ ansible_os_family }}.yml'
+    - not-supported.yml
   loop_control:
     loop_var: platform_tasks
