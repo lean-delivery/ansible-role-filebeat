@@ -242,11 +242,7 @@ processors:
 logging.to_syslog: {{ filebeat_logging_to_syslog }}
 logging.to_files: {{ filebeat_logging_to_files }}
 logging.files:
-{% if ansible_os_family == "RedHat" %}
   path: {{ path.logs }}
-{% elif ansible_os_family == "Windows" %}
-  path: {{ win.path.logs }}
-{% endif %}
   name: {{ filebeat_logname }}
   rotateeverybytes: {{ filebeat_rotateeverybytes }}
   keepfiles: {{ filebeat_keepfiles }}
