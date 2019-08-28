@@ -1,6 +1,6 @@
 ---
 - name: Install dependency for Debian
-  become: True
+  become: true
   package:
     name: apt-transport-https
     state: present
@@ -8,7 +8,7 @@
   until: debian_dependency is succeeded
 
 - name: Add elasticsearch apt key
-  become: True
+  become: true
   apt_key:
     url: '{{ elastic_gpg_key }}'
     state: present
@@ -16,14 +16,14 @@
   until: add_gpg_key is succeeded
 
 - name: Add Beats repository
-  become: True
+  become: true
   apt_repository:
     repo: 'deb https://artifacts.elastic.co/packages/{{ filebeat_version }}/apt stable main'
     state: present
-    update_cache: True
+    update_cache: true
 
 - name: Install filebeat
-  become: True
+  become: true
   package:
     name: filebeat
     state: present
@@ -31,7 +31,7 @@
   until: installed_package is succeeded
 
 - name: Setup path folders
-  become: True
+  become: true
   file:
     path: '{{ path_folder.value }}'
     state: directory
@@ -40,7 +40,7 @@
     loop_var: path_folder
 
 - name: Copy Configuration File
-  become: True
+  become: true
   template:
     src: filebeat.yml.j2
     dest: '{{ path.config }}/filebeat.yml'
@@ -49,13 +49,13 @@
     mode: 0644
 
 - name: Create folder path for service script
-  become: True
+  become: true
   file:
     path: /usr/lib/systemd/system
     state: directory
 
 - name: templating init script
-  become: True
+  become: true
   template:
     src: '{{ filebeat.service.template }}.j2'
     dest: '{{ filebeat.service.path }}'

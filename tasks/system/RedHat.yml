@@ -5,17 +5,17 @@
   when: ansible_service_mgr != 'systemd'
 
 - name: Add Beats repository
-  become: True
+  become: true
   yum_repository:
     name: "filebeat-{{ filebeat_version }}"
     description: "Beats repository"
     baseurl: 'https://artifacts.elastic.co/packages/{{ filebeat_version }}/yum'
-    gpgcheck: True
+    gpgcheck: true
     gpgkey: '{{ elastic_gpg_key }}'
-    enabled: True
+    enabled: true
 
 - name: Install filebeat
-  become: True
+  become: true
   package:
     name: filebeat
     state: present
@@ -25,10 +25,10 @@
 - name: Set filebeat_inputs_type
   set_fact:
     filebeat_inputs_type: type
-#  when: filebeat_specific_version is version_compare('6.0.0', operator='ge', strict=True)
+#  when: filebeat_specific_version is version_compare('6.0.0', operator='ge', strict=true)
 
 - name: Setup path folders
-  become: True
+  become: true
   file:
     path: '{{ path_folder.value }}'
     state: directory
@@ -37,7 +37,7 @@
     loop_var: path_folder
 
 - name: Copy Configuration File
-  become: True
+  become: true
   template:
     src: filebeat.yml.j2
     dest: '{{ path.config }}/filebeat.yml'
@@ -46,7 +46,7 @@
     mode: 0644
 
 - name: Setup config folder
-  become: True
+  become: true
   file:
     path: '{{ path.config }}/inputs.d'
     state: directory
@@ -55,7 +55,7 @@
     mode: 0644
 
 - name: templating custom inputs
-  become: True
+  become: true
   template:
     src: 'input.yml.j2'
     dest: '{{ path.config }}/inputs.d/input-{{ fb_input.name }}.yml'
@@ -68,7 +68,7 @@
   when: filebeat_inputs is defined
 
 - name: templating init script
-  become: True
+  become: true
   template:
     src: '{{ filebeat.service.template }}.j2'
     dest: '{{ filebeat.service.path }}'
