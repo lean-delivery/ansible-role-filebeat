@@ -64,7 +64,13 @@
     state: present
   notify: Restart filebeat win
 
-- name: start a services
+- name: Ensure that filebeat path present in 'Path' variable
+  win_path:
+    elements: '{{ path.home }}'
+    state: present
+    scope: machine
+
+- name: Start a service
   win_service:
     name: '{{ filebeat_service_name }}'
     state: started

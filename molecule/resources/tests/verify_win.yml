@@ -12,6 +12,14 @@
       debug:
         var: fb_service_info
 
+    - name: Check filebeat version
+      win_command: filebeat version
+      register: filebeat_out
+
+    - name: Debug filebeat_out
+      debug:
+        var: filebeat_out
+
     - name: Assert that filebeat package is installed
       assert:
         that: "'running' in fb_service_info.state"
