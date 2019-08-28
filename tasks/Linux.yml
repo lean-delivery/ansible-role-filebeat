@@ -32,4 +32,10 @@
         mode: '{{ fb_service_script_mode }}'
         force: true
       notify: '{{ fb_service_handlers }}'
+
+    - name: Start filebeat
+      service:
+        name: filebeat
+        state: started
+        enabled: true
   become: true
