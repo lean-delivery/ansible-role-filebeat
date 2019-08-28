@@ -3,4 +3,3 @@
   hosts: all
   roles:
     - role: ansible-role-filebeat
-      filebeat_find_last_version: true

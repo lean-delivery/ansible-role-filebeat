@@ -46,7 +46,7 @@ AWS filebeat:
   tags:
     - aws
 
-.AWS filebeat-win:
+AWS filebeat-win:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test

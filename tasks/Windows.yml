@@ -1,23 +1,8 @@
 ---
-- name: Setting default values
+- name: Set filebeat_version to last version
   set_fact:
-    path: '{{ path | combine(win.path) }}'
-    ssl: '{{ ssl | combine(win.ssl) }}'
-
-- name: Set filebeat_specific_version if specified
-  set_fact:
-    filebeat_specific_version: '{{ filebeat_last_version }}'
-  when: filebeat_version_suffix == 'x'
-
-- name: Set filebeat_inputs_type
-  set_fact:
-    filebeat_inputs_type: type
-  when: filebeat_specific_version is version_compare('6.0.0', operator='ge', strict=true)
-
-- name: Set filebeat_inputs_name
-  set_fact:
-    filebeat_inputs_name: inputs
-  when: filebeat_specific_version is version_compare('6.3.0', operator='ge', strict=true)
+    filebeat_version: '{{ filebeat_last_version }}'
+  when: filebeat_version.find('.x') == 1
 
 - name: Create temporary build directory
   win_file:
@@ -34,32 +19,41 @@
 
 - name: Download filebeat
   win_get_url:
-    url: 'https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-{{ filebeat_specific_version }}-windows-x86_64.zip'
+    url: 'https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-{{ filebeat_version }}-windows-x86_64.zip'
     dest: '{{ win_download_path }}\filebeat.zip'
     force: false
+  register: download_win_package
+  until: download_win_package is succeeded
 
 - name: Unzip filebeat
   win_unzip:
     src: '{{ win_download_path }}/filebeat.zip'
     dest: '{{ win_download_path }}'
-    creates: '{{ win_download_path }}/filebeat-{{ filebeat_specific_version }}-windows-x86_64'
+    creates: '{{ win_download_path }}/filebeat-{{ filebeat_version }}-windows-x86_64'
 
 - name: Copy files to home directory
   win_copy:
-    src: '{{ win_download_path }}/filebeat-{{ filebeat_specific_version }}-windows-x86_64/'
+    src: '{{ win_download_path }}/filebeat-{{ filebeat_version }}-windows-x86_64/'
     dest: '{{ path.home }}/'
     force: false
     remote_src: true
 
-- name: templating filebeat in/out configuration
+- name: Templating filebeat configuration
   win_template:
-    src: 'filebeat.yml.j2'
-    dest: '{{ path.config }}\filebeat.yml'
+    src: '{{ fb_path_file.src }}'
+    dest: '{{ fb_path_file.dst }}'
+  loop:
+    - src: filebeat.yml.j2
+      dst: '{{ path.config }}\filebeat.yml'
+    - src: filebeat-template.bat.j2
+      dst: '{{ path.home }}\filebeat.bat'
+  loop_control:
+    loop_var: fb_path_file
 
-- name: Copy service file
-  win_template:
-    src: filebeat-template.bat.j2
-    dest: '{{ path.home }}\\filebeat.bat'
+# - name: Templating service file
+#   win_template:
+#     src: filebeat-template.bat.j2
+#     dest: '{{ path.home }}\filebeat.bat'
 
 - name: Install nssm
   win_chocolatey:
