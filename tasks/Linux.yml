@@ -16,6 +16,7 @@
       with_dict: '{{ path }}'
       loop_control:
         loop_var: path_folder
+      notify: '{{ fb_service_handlers }}'
 
     - name: Copy Configuration File
       template:
@@ -24,6 +25,7 @@
         owner: root
         group: root
         mode: 0644
+      notify: '{{ fb_service_handlers }}'
 
     - name: templating default input
       template:
@@ -32,6 +34,7 @@
         owner: root
         group: root
         mode: 0644
+      notify: '{{ fb_service_handlers }}'
       loop: '{{ filebeat_inputs }}'
       loop_control:
         loop_var: fb_input

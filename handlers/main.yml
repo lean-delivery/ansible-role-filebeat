@@ -10,3 +10,8 @@
     name: filebeat
     state: restarted
   become: true
+
+- name: Restart filebeat win
+  win_service:
+    name: filebeat
+    state: restarted

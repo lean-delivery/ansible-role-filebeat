@@ -47,6 +47,8 @@ AWS filebeat:
     - aws
 
 AWS filebeat-win:
+  image:
+    name: leandelivery/docker-ansible-ci:ansible-2.8
   variables:
     AWS_REGION: us-east-1
   stage: deployment test

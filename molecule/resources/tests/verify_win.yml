@@ -1,0 +1,24 @@
+---
+# This is an example playbook to execute Ansible tests.
+- name: Verify
+  hosts: all
+  tasks:
+    - name: Check if a service is installed
+      win_service:
+        name: service name
+      register: fb_service_info
+
+    - name: Debug fb_service_info
+      debug:
+        var: fb_service_info
+
+    # - name: Assert that filebeat package is installed
+    #   assert:
+    #     that: ansible_facts.packages['filebeat']
+
+    # - name: Assert that filebeat service is running
+    #   assert:
+    #     that: |
+    #             "'running' in ansible_facts.services['filebeat.service'].state"
+    #             or
+    #             "'running' in ansible_facts.services['filebeat'].state"

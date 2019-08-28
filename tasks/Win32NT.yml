@@ -37,6 +37,7 @@
     dest: '{{ path.home }}/'
     force: false
     remote_src: true
+  notify: Restart filebeat win
 
 - name: Templating filebeat configuration
   win_template:
@@ -49,24 +50,19 @@
       dst: '{{ path.home }}\filebeat.bat'
   loop_control:
     loop_var: fb_path_file
-
-# - name: Templating service file
-#   win_template:
-#     src: filebeat-template.bat.j2
-#     dest: '{{ path.home }}\filebeat.bat'
+  notify: Restart filebeat win
 
 - name: Install nssm
   win_chocolatey:
     name: nssm
     state: present
 
-# # Idempotence test fails due https://github.com/ansible/ansible/issues/20625 bug.
 - name: Create service via nssm
   win_nssm:
     name: '{{ filebeat_service_name }}'
     application: '{{ path.home }}\filebeat.bat'
     state: present
-  # changed_when: false
+  notify: Restart filebeat win
 
 - name: start a services
   win_service:
