@@ -5,7 +5,7 @@
   tasks:
     - name: Check if a service is installed
       win_service:
-        name: service name
+        name: '{{ filebeat_service_name }}'
       register: fb_service_info
 
     - name: Debug fb_service_info
