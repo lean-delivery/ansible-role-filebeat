@@ -20,4 +20,7 @@
 
     - name: Assert that docker.service is running
       assert:
-        that: "'running' in ansible_facts.services['filebeat.service'].state"
+        that: |
+                "'running' in ansible_facts.services['filebeat.service'].state"
+                or
+                "'running' in ansible_facts.services['filebeat'].state"
