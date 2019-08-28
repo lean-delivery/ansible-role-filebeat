@@ -13,7 +13,7 @@ before_install:
   - git clone https://github.com/lean-delivery/ansible-lint-rules.git ~/ansible-lint-rules
 
 install:
-  - pip install --upgrade ansible==2.8.* docker
+  - pip install --upgrade git+https://github.com/ansible/ansible.git@devel docker
   - pip install molecule==2.22
   - pip install git+https://github.com/ansible/ansible-lint.git
   - ansible --version
