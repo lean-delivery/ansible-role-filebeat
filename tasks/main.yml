@@ -21,7 +21,6 @@
         url: 'https://api.github.com/repos/elastic/elasticsearch/releases/latest'
         return_content: false
       register: root_page
-      delegate_to: localhost
 
     - name: Find release version
       set_fact:
@@ -31,6 +30,11 @@
       debug:
         var: filebeat_last_version
   when: filebeat_find_last_version
+  delegate_to: localhost
+
+- name: Debug2 filebeat_last_version
+  debug:
+    var: filebeat_last_version
 
 - name: Configure and install packages for current OS
   include_tasks: '{{ platform_tasks }}'
