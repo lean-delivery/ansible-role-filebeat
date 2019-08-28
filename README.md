@@ -95,10 +95,31 @@ path:
 Temp directory for Windows to download and upzip Filebeat package. Default value is `'{{ ansible_env.TEMP }}/filebeat'` (ansible_env.TEMP value solves idempotence issue)
 
 
-- `input_logpath`
-Path to log files for *NIX OS family. Default value is `"/var/log/*.log"`
-- `win_input_logpath`
-Path to log files for WIN OS family. Default value is `'c:\windows\*.log'`
+- `input_logpath` 
+Path to log files. 
+
+Default value for *NIX OS family is `"/var/log/*.log"`
+
+Default value for WIN OS family is `'c:\windows\*.log'`
+
+Variable `filebeat_inputs` defines type of logs that will be processed by pipeline, their log paths and Elasticsearch index that should store this type of logs. 
+You can specify several inputs with various paths, logtypes and index names using yaml format like in example below:
+```
+    filebeat_inputs:
+      - name: hybris
+        paths: 
+          - '/var/log/console*.log'
+        fields:
+          logtype: hybris
+          index_name: hybris-console
+      - name: access
+        paths: 
+          - '/var/log/access*.log'
+          - '/var/log/nginx_access*.log'
+        fields:
+          logtype: access
+          index_name: nginx-access
+```
 
 
 ## Output customization:

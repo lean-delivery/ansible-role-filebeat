@@ -4,8 +4,6 @@
     {{ fb_input.paths | to_nice_yaml | indent(4, false) }}
   fields:
     {{ fb_input.fields | to_nice_yaml | indent(4, false) }}
-  fields_under_root: true
-  close_inactive: 2m
 
   ignore_older: {{ filebeat_ignore_older }}
   scan_frequency: {{ filebeat_scan_frequency }}

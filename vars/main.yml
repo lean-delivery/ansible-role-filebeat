@@ -9,6 +9,7 @@ path:
   config: '{{ fb_conf_dir }}'
   data: '{{ fb_data_dir }}'
   logs: '{{ fb_log_dir }}'
+  inputs: '{{ fb_conf_dir }}/configs'
 
 ssl:
   key: '{{ fb_ssl_key }}'

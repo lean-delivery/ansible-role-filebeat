@@ -17,7 +17,7 @@
 
 filebeat.config.inputs:
   enabled: true
-  path: inputs.d/*.yml
+  path: configs/*.yml
 
 #filebeat.inputs:
 
@@ -33,13 +33,6 @@ filebeat.config.inputs:
 
   # Paths that should be crawled and fetched. Glob based paths.
 #  paths:
-#{% if ansible_os_family == "RedHat" or "Debian" %}
-#    - {{ input_logpath }}
-#{% elif ansible_os_family == "Windows" %}
-#   - {{ win_input_logpath }}
-#{% endif %}
-    #- /var/log/*.log
-    #- c:\programdata\elasticsearch\logs\*
 
 
  # ignore_older: {{ filebeat_ignore_older }}

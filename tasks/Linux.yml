@@ -25,6 +25,17 @@
         group: root
         mode: 0644
 
+    - name: templating default input
+      template:
+        src: 'input.yml.j2'
+        dest: '{{ path.config }}/configs/input-{{ fb_input.name }}.yml'
+        owner: root
+        group: root
+        mode: 0644
+      loop: '{{ filebeat.inputs }}'
+      loop_control:
+        loop_var: fb_input
+
     - name: Copy service configuration file
       template:
         src: '{{ fb_service_script }}.j2'
