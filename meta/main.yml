@@ -22,10 +22,12 @@ galaxy_info:
     - name: Debian
       versions:
         - stretch
-        - jessie
+    - name: "Amazon"
+      versions:
+        - "all"
   galaxy_tags:
     - filebeat
-    - elastic
+    - elasticsearch
     - elk
     - logging
     - monitoring

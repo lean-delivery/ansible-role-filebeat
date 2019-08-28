@@ -32,7 +32,7 @@
         owner: root
         group: root
         mode: 0644
-      loop: '{{ filebeat.inputs }}'
+      loop: '{{ filebeat_inputs }}'
       loop_control:
         loop_var: fb_input
 
