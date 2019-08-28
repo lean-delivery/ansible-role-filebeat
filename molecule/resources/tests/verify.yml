@@ -1,9 +1,23 @@
 ---
 # This is an example playbook to execute Ansible tests.
-
 - name: Verify
   hosts: all
   tasks:
-  - name: Example assertion
-    assert:
-      that: true
+    - name: Gather the package facts
+      package_facts:
+        manager: auto
+
+    - name: Populate service facts
+      service_facts:
+
+    - name: Assert that docker-ce package is installed
+      assert:
+        that: ansible_facts.packages['filebeat']
+
+    - name: debug ansible_facts.services
+      debug:
+        var: ansible_facts.services
+
+    - name: Assert that docker.service is running
+      assert:
+        that: "'running' in ansible_facts.services['filebeat.service'].state"

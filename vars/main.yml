@@ -3,7 +3,7 @@
 fb_major_version: '{{ elastic_branch }}.x'
 es_repo_name: '{{ es_use_oss_version | ternary("oss-" + fb_major_version, fb_major_version) }}'
 fb_package_name: filebeat
-#'{{ es_use_oss_version | ternary("filebeat-oss", "filebeat") }}'
+
 path:
   home: '{{ fb_home }}'
   config: '{{ fb_conf_dir }}'
