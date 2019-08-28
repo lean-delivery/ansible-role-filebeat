@@ -12,9 +12,9 @@
       debug:
         var: fb_service_info
 
-    # - name: Assert that filebeat package is installed
-    #   assert:
-    #     that: ansible_facts.packages['filebeat']
+    - name: Assert that filebeat package is installed
+      assert:
+        that: "'running' in fb_service_info.state"
 
     # - name: Assert that filebeat service is running
     #   assert:

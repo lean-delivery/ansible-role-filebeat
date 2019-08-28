@@ -32,10 +32,6 @@
   when: filebeat_find_last_version
   delegate_to: localhost
 
-- name: Debug2 filebeat_last_version
-  debug:
-    var: filebeat_last_version
-
 - name: Configure and install packages for current OS
   include_tasks: '{{ platform_tasks }}'
   with_first_found:
