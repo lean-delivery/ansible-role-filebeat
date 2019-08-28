@@ -22,6 +22,11 @@
   register: installed_package
   until: installed_package is succeeded
 
+- name: Set filebeat_inputs_type
+  set_fact:
+    filebeat_inputs_type: type
+#  when: filebeat_specific_version is version_compare('6.0.0', operator='ge', strict=True)
+
 - name: Setup path folders
   become: True
   file:
@@ -39,6 +44,28 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Setup config folder
+  become: True
+  file:
+    path: '{{ path.config }}/inputs.d'
+    state: directory
+    owner: root
+    group: root
+    mode: 0644
+
+- name: templating custom inputs
+  become: True
+  template:
+    src: 'input.yml.j2'
+    dest: '{{ path.config }}/inputs.d/input-{{ fb_input.name }}.yml'
+    owner: root
+    group: root
+    mode: 0644
+  with_items: '{{ filebeat_inputs }}'
+  loop_control:
+    loop_var: fb_input
+  when: filebeat_inputs is defined
 
 - name: templating init script
   become: True
