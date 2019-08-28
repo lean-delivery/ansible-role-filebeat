@@ -37,7 +37,7 @@ Lint:
   tags:
     - aws
 
-.AWS filebeat:
+AWS filebeat:
   variables:
     AWS_REGION: us-east-1
   stage: deployment test

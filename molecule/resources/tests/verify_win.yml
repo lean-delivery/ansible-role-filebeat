@@ -8,25 +8,15 @@
         name: filebeat
       register: fb_service_info
 
-    - name: Debug fb_service_info
-      debug:
-        var: fb_service_info
-
     - name: Check filebeat version
       win_command: filebeat version
-      register: filebeat_out
+      register: filebeat_ver
+      changed_when: false
 
-    - name: Debug filebeat_out
+    - name: Debug filebeat version
       debug:
-        var: filebeat_out
+        var: filebeat_ver.stdout
 
     - name: Assert that filebeat package is installed
       assert:
         that: "'running' in fb_service_info.state"
-
-    # - name: Assert that filebeat service is running
-    #   assert:
-    #     that: |
-    #             "'running' in ansible_facts.services['filebeat.service'].state"
-    #             or
-    #             "'running' in ansible_facts.services['filebeat'].state"
