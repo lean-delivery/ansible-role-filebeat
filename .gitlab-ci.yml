@@ -30,7 +30,7 @@ Lint:
   tags:
     - aws
 
-.Docker filebeat:
+Docker filebeat:
   stage: deployment test
   script:
     - molecule test -s default
