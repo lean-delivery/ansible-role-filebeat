@@ -116,6 +116,9 @@ name: "{{ filebeat_node_name }}"
 # The tags of the shipper are included in their own field with each
 # transaction published.
 #tags: ["service-X", "web-tier"]
+{% if filebeat_tags is defined %}
+tags: [ {% for tag in filebeat_tags  %}{% if loop.index != loop.length %}"{{ tag }}", {% else %}"{{ tag }}" {% endif%}{% endfor %} ]
+{% endif %}
 
 
 # Optional fields that you can specify to add additional information to the

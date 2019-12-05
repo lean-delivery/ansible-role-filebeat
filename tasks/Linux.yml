@@ -30,7 +30,7 @@
     - name: templating default input
       template:
         src: 'input.yml.j2'
-        dest: '{{ path.config }}/configs/input-{{ fb_input.name }}.yml'
+        dest: '{{ path.config }}/configs/input-{{ fb_index }}.yml'
         owner: root
         group: root
         mode: 0644
@@ -38,6 +38,7 @@
       loop: '{{ filebeat_inputs }}'
       loop_control:
         loop_var: fb_input
+        index_var: fb_index
 
     - name: Copy service configuration file
       template:
