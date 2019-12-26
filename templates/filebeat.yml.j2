@@ -183,8 +183,7 @@ output.{{ filebeat_output }}:
   hosts: ["{{ elasticsearch.host }}"]
   port: {{ elasticsearch.port }}
 {% elif filebeat_output == "logstash" %}
-  hosts: ["{{ logstash.host }}"]
-  port: {{ logstash.port }}
+  hosts: ["{{ logstash.host }}:{{ logstash.port }}"]
 {% if ls_ssl_enabled and ansible_os_family == "RedHat" %}
   ssl.enabled: {{ ls_ssl_enabled }}
   ssl.certificate: {{ ls_ssl_certificate }}
