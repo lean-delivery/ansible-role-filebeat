@@ -185,6 +185,12 @@ output.{{ filebeat_output }}:
 {% elif filebeat_output == "logstash" %}
   hosts: ["{{ logstash.host }}"]
   port: {{ logstash.port }}
+{% if ls_ssl_enabled and ansible_os_family == "RedHat" %}
+  ssl.enabled: {{ ls_ssl_enabled }}
+  ssl.certificate: {{ ls_ssl_certificate }}
+  ssl.key: {{ ls_ssl_key }}
+  ssl.certificate_authorities: {{ ls_ssl_certificate_authorities }}
+{% endif %}
 {% endif %}
   bulk_max_size: {{ filebeat_bulk_max_size }}
   worker: {{ filebeat_worker }}
