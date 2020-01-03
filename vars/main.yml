@@ -15,5 +15,3 @@ ssl:
   key: '{{ fb_ssl_key }}'
   certificate: '{{ fb_ssl_certificate }}'
   certificate_authorities: '{{ fb_ssl_certificate_authorities }}'
-
-add_processor_fields: false
