@@ -236,12 +236,6 @@ ssl.enabled: {{ filebeat_ssl_enabled }}
 processors:
   - add_host_metadata: ~
   - add_cloud_metadata: ~
-{% if add_processor_fields and ansible_os_family == "RedHat" %}
-  - add_fields:
-     fields:
-       env: {{ processor_env }}
-       service: {{ processor_service }}
-{% endif %}
 
 #================================ Logging =====================================
 logging.to_syslog: {{ filebeat_logging_to_syslog }}
