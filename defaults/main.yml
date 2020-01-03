@@ -36,9 +36,6 @@ elasticsearch:
 logstash:
   host: localhost
   port: 5044
-  ls_ssl_enabled: false
-  ls_ssl_key: '{{ default_ssl["key"] }}'
-  ls_ssl_certificate: '{{ default_ssl["certificate"] }}'
 
 filebeat_service_name: filebeat
 filebeat_bulk_max_size: 500
@@ -51,3 +48,4 @@ filebeat_ignore_older: 0
 filebeat_scan_frequency: 15s
 filebeat_harvester_buffer_size: 65535
 filebeat_logname: "filebeat.log"
+add_processor_fields: false
