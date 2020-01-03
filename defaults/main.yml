@@ -48,4 +48,3 @@ filebeat_ignore_older: 0
 filebeat_scan_frequency: 15s
 filebeat_harvester_buffer_size: 65535
 filebeat_logname: "filebeat.log"
-add_processor_fields: false
