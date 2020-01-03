@@ -184,12 +184,6 @@ output.{{ filebeat_output }}:
   port: {{ elasticsearch.port }}
 {% elif filebeat_output == "logstash" %}
   hosts: ["{{ logstash.host }}:{{ logstash.port }}"]
-{% if ls_ssl_enabled and ansible_os_family == "RedHat" %}
-  ssl.enabled: {{ ls_ssl_enabled }}
-  ssl.certificate: {{ ls_ssl_certificate }}
-  ssl.key: {{ ls_ssl_key }}
-  ssl.certificate_authorities: {{ ls_ssl_certificate_authorities }}
-{% endif %}
 {% endif %}
   bulk_max_size: {{ filebeat_bulk_max_size }}
   worker: {{ filebeat_worker }}
@@ -199,6 +193,7 @@ ssl.enabled: {{ filebeat_ssl_enabled }}
 {% if filebeat_ssl_enabled and ansible_os_family == "RedHat" %}
   ssl.certificate: {{ filebeat_cert_file }}
   ssl.key: {{ filebeat_pkey_file }}
+  ssl.certificate_authorities: {{ fb_ssl_certificate_authorities }}
 {% endif %}
   
 #-------------------------- Elasticsearch output ------------------------------
@@ -241,7 +236,12 @@ ssl.enabled: {{ filebeat_ssl_enabled }}
 processors:
   - add_host_metadata: ~
   - add_cloud_metadata: ~
-
+{% if add_processor_fields and ansible_os_family == "RedHat" %}
+  - add_fields:
+     fields:
+       env: {{ processor_env }}
+       service: {{ processor_service }}
+{% endif %}
 
 #================================ Logging =====================================
 logging.to_syslog: {{ filebeat_logging_to_syslog }}
