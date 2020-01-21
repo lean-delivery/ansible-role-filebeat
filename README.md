@@ -106,13 +106,13 @@ Variable `filebeat_inputs` defines type of logs that will be processed by pipeli
 You can specify several inputs with various paths, logtypes and index names using yaml format like in example below:
 ```
     filebeat_inputs:
-      - name: hybris
+      - type: log
         paths: 
           - '/var/log/console*.log'
         fields:
           logtype: hybris
           index_name: hybris-console
-      - name: access
+      - type: log
         paths: 
           - '/var/log/access*.log'
           - '/var/log/nginx_access*.log'
@@ -120,7 +120,7 @@ You can specify several inputs with various paths, logtypes and index names usin
           logtype: access
           index_name: nginx-access
 ```
-
+Find out all input features in [the official documentation](https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-input-log.html)
 
 ## Output customization:
 - `filebeat_output`
@@ -138,6 +138,14 @@ Array of hosts to connect to. Default value is `localhost`
 - `logstash.port`
 Value for setting custom port. Default value is `5044`
 
+## Add custom user-defined tags to all messages from the particular node:
+```
+    filebeat_tags:
+      - tag1
+      - tag2
+      ...
+      - tagN
+```
 
 ## Advanced config parameters:
 
